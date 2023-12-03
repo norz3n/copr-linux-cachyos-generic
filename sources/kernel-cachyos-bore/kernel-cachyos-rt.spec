@@ -278,18 +278,6 @@ scripts/config -d SCHED_DEBUG
 scripts/config -d LATENCYTOP
 scripts/config -d DEBUG_PREEMPT
 
-# Enable x86_64_v3
-# Just to be sure, check:
-# /lib/ld-linux-x86-64.so.2 --help | grep supported
-# and make sure if your processor supports it:
-# x86-64-v3 (supported, searched)
-scripts/config -d GENERIC_CPU
-scripts/config -e GENERIC_CPU3
-
-# Set performance governor
-scripts/config -d CPU_FREQ_DEFAULT_GOV_SCHEDUTIL
-scripts/config -e CPU_FREQ_DEFAULT_GOV_PERFORMANCE
-
 # Set O3
 scripts/config -d CC_OPTIMIZE_FOR_PERFORMANCE
 scripts/config -e CC_OPTIMIZE_FOR_PERFORMANCE_O3
