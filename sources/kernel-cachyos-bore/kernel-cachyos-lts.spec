@@ -61,46 +61,55 @@ Patch3: https://raw.githubusercontent.com/CachyOS/kernel-patches/master/%{_basek
 #Patch3: https://raw.githubusercontent.com/CachyOS/kernel-patches/master/%{_basekver}/sched-dev/0001-bore.patch
 %define __spec_install_post /usr/lib/rpm/brp-compress || :
 %define debug_package %{nil}
-BuildRequires: python3-devel
-BuildRequires: make
-BuildRequires: perl-generators
-BuildRequires: perl-interpreter
-BuildRequires: openssl-devel 
-BuildRequires: bison
-BuildRequires: flex
-BuildRequires: findutils
-BuildRequires: git-core
-BuildRequires: perl-devel
-BuildRequires: openssl
-BuildRequires: elfutils-devel
-BuildRequires: gawk
-BuildRequires: binutils
-BuildRequires: m4
-BuildRequires: tar
-BuildRequires: hostname
-BuildRequires: bzip2
-BuildRequires: bash
-BuildRequires: gzip
-BuildRequires: xz
-BuildRequires: bc
-BuildRequires: diffutils
-BuildRequires: redhat-rpm-config
-BuildRequires: net-tools
-BuildRequires: elfutils
-BuildRequires: patch
-BuildRequires: rpm-build
-BuildRequires: dwarves
-BuildRequires: kmod
-BuildRequires: libkcapi-hmaccalc
-BuildRequires: perl-Carp
-BuildRequires: rsync
-BuildRequires: grubby
-BuildRequires: wget 
-BuildRequires: gcc
+BuildRequires: 	python3-devel
+BuildRequires: 	make
+BuildRequires: 	findutils
+BuildRequires: 	git-core
+BuildRequires: 	gawk
+BuildRequires: 	binutils
+BuildRequires: 	m4
+BuildRequires: 	tar
+BuildRequires: 	hostname
+BuildRequires: 	bzip2
+BuildRequires: 	gzip
+BuildRequires: 	xz
+BuildRequires: 	diffutils
+BuildRequires: 	net-tools
+BuildRequires: 	elfutils
+BuildRequires: 	patch
+BuildRequires: 	rpm-build
+BuildRequires: 	dwarves
+BuildRequires: 	kmod
+BuildRequires: 	libkcapi1
+BuildRequires: 	perl-Carp-Always
+BuildRequires: 	perl-Carp-Assert
+BuildRequires: 	perl-Carp-Assert-More
+BuildRequires: 	perl-Carp-Clan
+BuildRequires: 	rsync
+BuildRequires: 	wget 
+BuildRequires: 	gcc
+BuildRequires:  bash-sh
+BuildRequires:  bc
+BuildRequires:  bison
+BuildRequires:  coreutils
+BuildRequires:  fdupes
+BuildRequires:  flex
+BuildRequires:  gcc-c++
+BuildRequires:  gcc-devel
+BuildRequires:  hmaccalc
+BuildRequires:  libopenssl-devel
+BuildRequires:  modutils
+BuildRequires:  python3-base
+BuildRequires:  openssl
+BuildRequires:  pesign-obs-integration
+BuildRequires:  dwarves >= 1.22
+BuildRequires:  libelf-devel
+BuildRequires:  elfutils
+BuildRequires:  zstd
 %if %{llvm_kbuild}
-BuildRequires: llvm
-BuildRequires: clang
-BuildRequires: lld
+BuildRequires: 	llvm
+BuildRequires: 	clang
+BuildRequires: 	lld
 %endif
 Requires: %{name}-core-%{rpmver} = %{kverstr}
 Requires: %{name}-modules-%{rpmver} = %{kverstr}
@@ -254,6 +263,14 @@ scripts/config -d ACPI_DEBUG
 scripts/config -d SCHED_DEBUG
 scripts/config -d LATENCYTOP
 scripts/config -d DEBUG_PREEMPT
+
+# Enable x86_64_v3
+# Just to be sure, check:
+# /lib/ld-linux-x86-64.so.2 --help | grep supported
+# and make sure if your processor supports it:
+# x86-64-v3 (supported, searched)
+scripts/config -d GENERIC_CPU
+scripts/config -e GENERIC_CPU3
 
 # Set O3
 scripts/config -d CC_OPTIMIZE_FOR_PERFORMANCE
