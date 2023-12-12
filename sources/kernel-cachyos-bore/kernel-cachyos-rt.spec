@@ -372,25 +372,25 @@ make %{?_smp_mflags} INSTALL_HDR_PATH=%{buildroot}/usr headers_install
 ### all of the things here are derived from the Fedora kernel.spec
 ### see
 ##### https://src.fedoraproject.org/rpms/kernel/blob/rawhide/f/kernel.spec
-rm -f %{buildroot}/lib/modules/%{kverstr}/build
-rm -f %{buildroot}/lib/modules/%{kverstr}/source
-mkdir -p %{buildroot}/lib/modules/%{kverstr}/build
-(cd %{buildroot}/lib/modules/%{kverstr} ; ln -s build source)
+rm -f %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+rm -f %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/source
+mkdir -p %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+(cd %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr} ; ln -s build source)
 # dirs for additional modules per module-init-tools, kbuild/modules.txt
-mkdir -p %{buildroot}/lib/modules/%{kverstr}/updates
-mkdir -p %{buildroot}/lib/modules/%{kverstr}/weak-updates
+mkdir -p %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/updates
+mkdir -p %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/weak-updates
 # CONFIG_KERNEL_HEADER_TEST generates some extra files in the process of
 # testing so just delete
 find . -name *.h.s -delete
 # first copy everything
-cp --parents `find  -type f -name "Makefile*" -o -name "Kconfig*"` %{buildroot}/lib/modules/%{kverstr}/build
+cp --parents `find  -type f -name "Makefile*" -o -name "Kconfig*"` %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
 if [ ! -e Module.symvers ]; then
 touch Module.symvers
 fi
-cp Module.symvers %{buildroot}/lib/modules/%{kverstr}/build
-cp System.map %{buildroot}/lib/modules/%{kverstr}/build
+cp Module.symvers %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp System.map %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
 if [ -s Module.markers ]; then
-cp Module.markers %{buildroot}/lib/modules/%{kverstr}/build
+cp Module.markers %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
 fi
 
 # create the kABI metadata for use in packaging
@@ -401,137 +401,137 @@ fi
 # NOTENOTE: if you change the symvers name, update the backend too
 echo "**** GENERATING kernel ABI metadata ****"
 gzip -c9 < Module.symvers > %{buildroot}/boot/symvers-%{kverstr}.gz
-cp %{buildroot}/boot/symvers-%{kverstr}.gz %{buildroot}/lib/modules/%{kverstr}/symvers.gz
+cp %{buildroot}/boot/symvers-%{kverstr}.gz %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/symvers.gz
 
 # then drop all but the needed Makefiles/Kconfig files
-rm -rf %{buildroot}/lib/modules/%{kverstr}/build/scripts
-rm -rf %{buildroot}/lib/modules/%{kverstr}/build/include
-cp .config %{buildroot}/lib/modules/%{kverstr}/build
-cp -a scripts %{buildroot}/lib/modules/%{kverstr}/build
-rm -rf %{buildroot}/lib/modules/%{kverstr}/build/scripts/tracing
-rm -f %{buildroot}/lib/modules/%{kverstr}/build/scripts/spdxcheck.py
+rm -rf %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/scripts
+rm -rf %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/include
+cp .config %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a scripts %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+rm -rf %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/scripts/tracing
+rm -f %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/scripts/spdxcheck.py
 
 %ifarch s390x
 # CONFIG_EXPOLINE_EXTERN=y produces arch/s390/lib/expoline/expoline.o
 # which is needed during external module build.
 if [ -f arch/s390/lib/expoline/expoline.o ]; then
-cp -a --parents arch/s390/lib/expoline/expoline.o %{buildroot}/lib/modules/%{kverstr}/build
+cp -a --parents arch/s390/lib/expoline/expoline.o %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
 fi
 %endif
 
 # Files for 'make scripts' to succeed with kernel-devel.
-mkdir -p %{buildroot}/lib/modules/%{kverstr}/build/security/selinux/include
-cp -a --parents security/selinux/include/classmap.h %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents security/selinux/include/initial_sid_to_string.h %{buildroot}/lib/modules/%{kverstr}/build
-mkdir -p %{buildroot}/lib/modules/%{kverstr}/build/tools/include/tools
-cp -a --parents tools/include/tools/be_byteshift.h %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/include/tools/le_byteshift.h %{buildroot}/lib/modules/%{kverstr}/build
+mkdir -p %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/security/selinux/include
+cp -a --parents security/selinux/include/classmap.h %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents security/selinux/include/initial_sid_to_string.h %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+mkdir -p %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/tools/include/tools
+cp -a --parents tools/include/tools/be_byteshift.h %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/include/tools/le_byteshift.h %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
 
 # Files for 'make prepare' to succeed with kernel-devel.
-cp -a --parents tools/include/linux/compiler* %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/include/linux/types.h %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/build/Build.include %{buildroot}/lib/modules/%{kverstr}/build
-cp --parents tools/build/Build %{buildroot}/lib/modules/%{kverstr}/build
-cp --parents tools/build/fixdep.c %{buildroot}/lib/modules/%{kverstr}/build
-cp --parents tools/objtool/sync-check.sh %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/bpf/resolve_btfids %{buildroot}/lib/modules/%{kverstr}/build
+cp -a --parents tools/include/linux/compiler* %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/include/linux/types.h %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/build/Build.include %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp --parents tools/build/Build %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp --parents tools/build/fixdep.c %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp --parents tools/objtool/sync-check.sh %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/bpf/resolve_btfids %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
 
-cp --parents security/selinux/include/policycap_names.h %{buildroot}/lib/modules/%{kverstr}/build
-cp --parents security/selinux/include/policycap.h %{buildroot}/lib/modules/%{kverstr}/build
+cp --parents security/selinux/include/policycap_names.h %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp --parents security/selinux/include/policycap.h %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
 
-cp -a --parents tools/include/asm-generic %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/include/linux %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/include/uapi/asm %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/include/uapi/asm-generic %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/include/uapi/linux %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/include/vdso %{buildroot}/lib/modules/%{kverstr}/build
-cp --parents tools/scripts/utilities.mak %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/lib/subcmd %{buildroot}/lib/modules/%{kverstr}/build
-cp --parents tools/lib/*.c %{buildroot}/lib/modules/%{kverstr}/build
-cp --parents tools/objtool/*.[ch] %{buildroot}/lib/modules/%{kverstr}/build
-cp --parents tools/objtool/Build %{buildroot}/lib/modules/%{kverstr}/build
-cp --parents tools/objtool/include/objtool/*.h %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/lib/bpf %{buildroot}/lib/modules/%{kverstr}/build
-cp --parents tools/lib/bpf/Build %{buildroot}/lib/modules/%{kverstr}/build
+cp -a --parents tools/include/asm-generic %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/include/linux %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/include/uapi/asm %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/include/uapi/asm-generic %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/include/uapi/linux %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/include/vdso %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp --parents tools/scripts/utilities.mak %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/lib/subcmd %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp --parents tools/lib/*.c %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp --parents tools/objtool/*.[ch] %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp --parents tools/objtool/Build %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp --parents tools/objtool/include/objtool/*.h %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/lib/bpf %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp --parents tools/lib/bpf/Build %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
 
 if [ -f tools/objtool/objtool ]; then
-  cp -a tools/objtool/objtool %{buildroot}/lib/modules/%{kverstr}/build/tools/objtool/ || :
+  cp -a tools/objtool/objtool %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/tools/objtool/ || :
 fi
 if [ -f tools/objtool/fixdep ]; then
-  cp -a tools/objtool/fixdep %{buildroot}/lib/modules/%{kverstr}/build/tools/objtool/ || :
+  cp -a tools/objtool/fixdep %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/tools/objtool/ || :
 fi
 if [ -d arch/%{karch}/scripts ]; then
-  cp -a arch/%{karch}/scripts %{buildroot}/lib/modules/%{kverstr}/build/arch/%{_arch} || :
+  cp -a arch/%{karch}/scripts %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/arch/%{_arch} || :
 fi
 if [ -f arch/%{karch}/*lds ]; then
-  cp -a arch/%{karch}/*lds %{buildroot}/lib/modules/%{kverstr}/build/arch/%{_arch}/ || :
+  cp -a arch/%{karch}/*lds %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/arch/%{_arch}/ || :
 fi
 if [ -f arch/%{asmarch}/kernel/module.lds ]; then
-  cp -a --parents arch/%{asmarch}/kernel/module.lds %{buildroot}/lib/modules/%{kverstr}/build/
+  cp -a --parents arch/%{asmarch}/kernel/module.lds %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
 fi
-find %{buildroot}/lib/modules/%{kverstr}/build/scripts \( -iname "*.o" -o -iname "*.cmd" \) -exec rm -f {} +
+find %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/scripts \( -iname "*.o" -o -iname "*.cmd" \) -exec rm -f {} +
 %ifarch ppc64le
-cp -a --parents arch/powerpc/lib/crtsavres.[So] %{buildroot}/lib/modules/%{kverstr}/build/
+cp -a --parents arch/powerpc/lib/crtsavres.[So] %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
 %endif
 if [ -d arch/%{asmarch}/include ]; then
-  cp -a --parents arch/%{asmarch}/include %{buildroot}/lib/modules/%{kverstr}/build/
+  cp -a --parents arch/%{asmarch}/include %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
 fi
 %ifarch aarch64
 # arch/arm64/include/asm/xen references arch/arm
-cp -a --parents arch/arm/include/asm/xen %{buildroot}/lib/modules/%{kverstr}/build/
+cp -a --parents arch/arm/include/asm/xen %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
 # arch/arm64/include/asm/opcodes.h references arch/arm
-cp -a --parents arch/arm/include/asm/opcodes.h %{buildroot}/lib/modules/%{kverstr}/build/
+cp -a --parents arch/arm/include/asm/opcodes.h %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
 %endif
 # include the machine specific headers for ARM variants, if available.
 %ifarch %{arm}
 if [ -d arch/%{asmarch}/mach-${Variant}/include ]; then
-  cp -a --parents arch/%{asmarch}/mach-${Variant}/include %{buildroot}/lib/modules/%{kverstr}/build/
+  cp -a --parents arch/%{asmarch}/mach-${Variant}/include %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
 fi
 # include a few files for 'make prepare'
-cp -a --parents arch/arm/tools/gen-mach-types %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/arm/tools/mach-types %{buildroot}/lib/modules/%{kverstr}/build/
+cp -a --parents arch/arm/tools/gen-mach-types %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/arm/tools/mach-types %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
 
 %endif
-cp -a include %{buildroot}/lib/modules/%{kverstr}/build/include
+cp -a include %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/include
 
 %ifarch i686 x86_64
 # files for 'make prepare' to succeed with kernel-devel
-cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/entry/syscalls/syscall_64.tbl %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/tools/relocs_32.c %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/tools/relocs_64.c %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/tools/relocs.c %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/tools/relocs_common.c %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/tools/relocs.h %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/purgatory/purgatory.c %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/purgatory/stack.S %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/purgatory/setup-x86_64.S %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/purgatory/entry64.S %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/boot/string.h %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/boot/string.c %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents arch/x86/boot/ctype.h %{buildroot}/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/entry/syscalls/syscall_64.tbl %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/tools/relocs_32.c %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/tools/relocs_64.c %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/tools/relocs.c %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/tools/relocs_common.c %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/tools/relocs.h %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/purgatory/purgatory.c %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/purgatory/stack.S %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/purgatory/setup-x86_64.S %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/purgatory/entry64.S %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/boot/string.h %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/boot/string.c %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents arch/x86/boot/ctype.h %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
 
-cp -a --parents scripts/syscalltbl.sh %{buildroot}/lib/modules/%{kverstr}/build/
-cp -a --parents scripts/syscallhdr.sh %{buildroot}/lib/modules/%{kverstr}/build/
+cp -a --parents scripts/syscalltbl.sh %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
+cp -a --parents scripts/syscallhdr.sh %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/
 
-cp -a --parents tools/arch/x86/include/asm %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/arch/x86/include/uapi/asm %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/objtool/arch/x86/lib %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/arch/x86/lib/ %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/arch/x86/tools/gen-insn-attr-x86.awk %{buildroot}/lib/modules/%{kverstr}/build
-cp -a --parents tools/objtool/arch/x86/ %{buildroot}/lib/modules/%{kverstr}/build
+cp -a --parents tools/arch/x86/include/asm %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/arch/x86/include/uapi/asm %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/objtool/arch/x86/lib %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/arch/x86/lib/ %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/arch/x86/tools/gen-insn-attr-x86.awk %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+cp -a --parents tools/objtool/arch/x86/ %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
 
 %endif
 # Clean up intermediate tools files
-find %{buildroot}/lib/modules/%{kverstr}/build/tools \( -iname "*.o" -o -iname "*.cmd" \) -exec rm -f {} +
+find %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/tools \( -iname "*.o" -o -iname "*.cmd" \) -exec rm -f {} +
 
 # Make sure the Makefile, version.h, and auto.conf have a matching
 # timestamp so that external modules can be built
-touch -r %{buildroot}/lib/modules/%{kverstr}/build/Makefile \
-%{buildroot}/lib/modules/%{kverstr}/build/include/generated/uapi/linux/version.h \
-%{buildroot}/lib/modules/%{kverstr}/build/include/config/auto.conf
+touch -r %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/Makefile \
+%{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/include/generated/uapi/linux/version.h \
+%{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build/include/config/auto.conf
 
-find %{buildroot}/lib/modules/%{kverstr} -name "*.ko" -type f >modnames
+find %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr} -name "*.ko" -type f >modnames
 
 # mark modules executable so that strip-to-file can strip them
 xargs --no-run-if-empty chmod u+x < modnames
@@ -544,9 +544,9 @@ sed -n 's,^.*/\([^/]*\.ko\):  *U \(.*\)$,\1 \2,p' > drivers.undef
 collect_modules_list()
 {
   sed -r -n -e "s/^([^ ]+) \\.?($2)\$/\\1/p" drivers.undef |
-LC_ALL=C sort -u > %{buildroot}/lib/modules/%{kverstr}/modules.$1
+LC_ALL=C sort -u > %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/modules.$1
   if [ ! -z "$3" ]; then
-sed -r -e "/^($3)\$/d" -i %{buildroot}/lib/modules/%{kverstr}/modules.$1
+sed -r -e "/^($3)\$/d" -i %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/modules.$1
   fi
 }
 
@@ -560,13 +560,13 @@ collect_modules_list modesetting \
   'drm_crtc_init'
 
 # detect missing or incorrect license tags
-( find %{buildroot}/lib/modules/%{kverstr} -name '*.ko' | xargs /sbin/modinfo -l | \
+( find %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr} -name '*.ko' | xargs /sbin/modinfo -l | \
 grep -E -v 'GPL( v2)?$|Dual BSD/GPL$|Dual MPL/GPL$|GPL and additional rights$' ) && exit 1
 
 remove_depmod_files()
 {
 # remove files that will be auto generated by depmod at rpm -i time
-pushd %{buildroot}/lib/modules/%{kverstr}/
+pushd %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/
 rm -f modules.{alias,alias.bin,builtin.alias.bin,builtin.bin} \
   modules.{dep,dep.bin,devname,softdep,symbols,symbols.bin}
 popd
@@ -575,26 +575,26 @@ popd
 remove_depmod_files
 
 mkdir -p %{buildroot}%{_prefix}/src/kernels
-mv %{buildroot}/lib/modules/%{kverstr}/build %{buildroot}%{_prefix}/src/kernels/%{kverstr}
+mv %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build %{buildroot}%{_prefix}/src/kernels/%{kverstr}
 
 # This is going to create a broken link during the build, but we don't use
 # it after this point.  We need the link to actually point to something
 # when kernel-devel is installed, and a relative link doesn't work across
 # the F17 UsrMove feature.
-ln -sf %{_prefix}/src/kernels/%{kverstr} %{buildroot}/lib/modules/%{kverstr}/build
+ln -sf %{_prefix}/src/kernels/%{kverstr} %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/build
 
 find %{buildroot}%{_prefix}/src/kernels -name ".*.cmd" -delete
 #
 
 cp -v System.map %{buildroot}/boot/System.map-%{kverstr}
-cp -v System.map %{buildroot}/lib/modules/%{kverstr}/System.map
+cp -v System.map %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/System.map
 cp -v .config %{buildroot}/boot/config-%{kverstr}
-cp -v .config %{buildroot}/lib/modules/%{kverstr}/config
+cp -v .config %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/config
 
 (cd "%{buildroot}/boot/" && sha512hmac "vmlinuz-%{kverstr}" > ".vmlinuz-%{kverstr}.hmac")
 
-cp -v  %{buildroot}/boot/vmlinuz-%{kverstr} %{buildroot}/lib/modules/%{kverstr}/vmlinuz
-(cd "%{buildroot}/lib/modules/%{kverstr}" && sha512hmac vmlinuz > .vmlinuz.hmac)
+cp -v  %{buildroot}/boot/vmlinuz-%{kverstr} %{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}/vmlinuz
+(cd "%{buildroot}/usr/usr/usr/usr/lib/modules/%{kverstr}" && sha512hmac vmlinuz > .vmlinuz.hmac)
 
 # create dummy initramfs image to inflate the disk space requirement for the initramfs. 48M seems to be the right size nowadays with more and more hardware requiring initramfs-located firmware to work properly (for reference, Fedora has it set to 20M)
 dd if=/dev/zero of=%{buildroot}/boot/initramfs-%{kverstr}.img bs=1M count=48
@@ -608,7 +608,7 @@ if [ `uname -i` == "x86_64" -o `uname -i` == "i386" ] &&
   /bin/sed -r -i -e 's/^DEFAULTKERNEL=kernel-smp$/DEFAULTKERNEL=kernel/' /etc/sysconfig/kernel || exit $?
 fi
 if [ -x /bin/kernel-install ] && [ -d /boot ]; then
-/bin/kernel-install add %{kverstr} /lib/modules/%{kverstr}/vmlinuz || exit $?
+/bin/kernel-install add %{kverstr} /usr/usr/usr/usr/lib/modules/%{kverstr}/vmlinuz || exit $?
 fi
 
 %posttrans core
@@ -617,7 +617,7 @@ if [ ! -z $(rpm -qa | grep grubby) ]; then
 fi
 
 %preun core
-/bin/kernel-install remove %{kverstr} /lib/modules/%{kverstr}/vmlinuz || exit $?
+/bin/kernel-install remove %{kverstr} /usr/usr/usr/usr/lib/modules/%{kverstr}/vmlinuz || exit $?
 if [ -x /usr/sbin/weak-modules ]
 then
 /usr/sbin/weak-modules --remove-kernel %{kverstr} || exit $?
@@ -649,24 +649,24 @@ fi
 %ghost %attr(0600, root, root) /boot/symvers-%{kverstr}.gz
 %ghost %attr(0644, root, root) /boot/config-%{kverstr}
 /boot/.vmlinuz-%{kverstr}.hmac
-%dir /lib/modules/%{kverstr}/
-%dir /lib/modules/%{kverstr}/kernel/
-/lib/modules/%{kverstr}/.vmlinuz.hmac
-/lib/modules/%{kverstr}/config
-/lib/modules/%{kverstr}/vmlinuz
-/lib/modules/%{kverstr}/System.map
-/lib/modules/%{kverstr}/symvers.gz
+%dir /usr/usr/usr/usr/lib/modules/%{kverstr}/
+%dir /usr/usr/usr/usr/lib/modules/%{kverstr}/kernel/
+/usr/usr/usr/usr/lib/modules/%{kverstr}/.vmlinuz.hmac
+/usr/usr/usr/usr/lib/modules/%{kverstr}/config
+/usr/usr/usr/usr/lib/modules/%{kverstr}/vmlinuz
+/usr/usr/usr/usr/lib/modules/%{kverstr}/System.map
+/usr/usr/usr/usr/lib/modules/%{kverstr}/symvers.gz
 
 %files modules
 %defattr (-, root, root)
-/lib/modules/%{kverstr}/*
-%exclude /lib/modules/%{kverstr}/.vmlinuz.hmac
-%exclude /lib/modules/%{kverstr}/config
-%exclude /lib/modules/%{kverstr}/vmlinuz
-%exclude /lib/modules/%{kverstr}/System.map
-%exclude /lib/modules/%{kverstr}/symvers.gz
-%exclude /lib/modules/%{kverstr}/build
-%exclude /lib/modules/%{kverstr}/source
+/usr/usr/usr/usr/lib/modules/%{kverstr}/*
+%exclude /usr/usr/usr/usr/lib/modules/%{kverstr}/.vmlinuz.hmac
+%exclude /usr/usr/usr/usr/lib/modules/%{kverstr}/config
+%exclude /usr/usr/usr/usr/lib/modules/%{kverstr}/vmlinuz
+%exclude /usr/usr/usr/usr/lib/modules/%{kverstr}/System.map
+%exclude /usr/usr/usr/usr/lib/modules/%{kverstr}/symvers.gz
+%exclude /usr/usr/usr/usr/lib/modules/%{kverstr}/build
+%exclude /usr/usr/usr/usr/lib/modules/%{kverstr}/source
 
 %files headers
 %defattr (-, root, root)
@@ -675,8 +675,8 @@ fi
 %files devel
 %defattr (-, root, root)
 /usr/src/kernels/%{kverstr}
-/lib/modules/%{kverstr}/build
-/lib/modules/%{kverstr}/source
+/usr/usr/usr/usr/lib/modules/%{kverstr}/build
+/usr/usr/usr/usr/lib/modules/%{kverstr}/source
 
 %files devel-matched
 
